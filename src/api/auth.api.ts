@@ -1,5 +1,6 @@
 import { Employee, SignIn, SignUp } from '@@types';
-import { query, api } from './api';
+
+import { api, query } from './api';
 
 export const signIn = query(async (data: SignIn) => {
   const response = await api.post<Employee>('/auth/sign-in', data);

@@ -25,10 +25,15 @@
     "paths": {
       "@store": ["./src/store"],
       "@pages": ["./src/pages"],
-      "@components": ["./src/components"],
+      "@components/*": ["./src/components/*"],
       "@api": ["./src/api"],
       "@routes": ["./src/routes"],
-      "@@types": ["./src/types"]
+      "@@types": ["./src/types"],
+      "@thunks": ["./src/store/thunks"],
+      "@reducers": ["./src/store/reducers"],
+      "@constants": ["./src/constants"],
+      "@fonts/*": ["./src/assets/fonts/*"],
+      "@utils": ["./src/utils"]
     }
   },
   "include": ["src"]
