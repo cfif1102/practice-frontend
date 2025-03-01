@@ -8,3 +8,12 @@ export interface Pagination {
   page: number;
   pageSize: number;
 }
+
+export interface RippleSpan {
+  x: number;
+  y: number;
+  size: number;
+  color: string;
+  duration: number;
+  id: number;
+}

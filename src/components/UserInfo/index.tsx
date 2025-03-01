@@ -1,3 +1,4 @@
+import { VALUES } from '@constants';
 import { stringAvatar } from '@utils';
 import { FC } from 'react';
 
@@ -10,9 +11,11 @@ interface Props {
   color?: string;
 }
 
+const { maxUsernameLength } = VALUES;
+
 export const UserInfo: FC<Props> = ({ name, surname, size = 45, color = 'white' }) => {
   const username = `${name} ${surname}`;
-  const displayName = username.length > 18 ? `${username.slice(0, 18)}…` : username;
+  const displayName = username.length > maxUsernameLength ? `${username.slice(0, maxUsernameLength)}…` : username;
 
   return (
     <UserDiv>

@@ -1,15 +1,19 @@
 import { UserInfo } from '@components/UserInfo';
-import { Avatar } from '@mui/material';
-import { RootState } from '@store';
-import { stringAvatar } from '@utils';
+import { AppDispatch, RootState } from '@store';
+import { signOut } from '@thunks';
 import { FC } from 'react';
 import { Container } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { HeaderItems, HeaderStyled, LinksDiv, LinkStyled, Logo } from './styled';
+import { HeaderItems, HeaderStyled, LinksDiv, LinkStyled, Logo, SignOutBtn, UserInfoDiv } from './styled';
 
 export const Header: FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
+
+  const handleSignOut = () => {
+    dispatch(signOut());
+  };
 
   return (
     <HeaderStyled>
@@ -23,12 +27,16 @@ export const Header: FC = () => {
               <LinkStyled to={'/equipments'}>Оборудование</LinkStyled>
               <LinkStyled to={'/employees'}>Сотрудники</LinkStyled>
               <LinkStyled to={'/repairs'}>Акты ремонта</LinkStyled>
-              <LinkStyled to={'/statisctics'}>Статистика</LinkStyled>
+              <LinkStyled to={'/stats'}>Статистика</LinkStyled>
             </div>
           </LinksDiv>
 
           {!!user ? (
-            <UserInfo name={user.name} surname={user.surname} />
+            <UserInfoDiv>
+              <UserInfo name={user.name} surname={user.surname} />
+
+              <SignOutBtn onClick={handleSignOut}>Выйти</SignOutBtn>
+            </UserInfoDiv>
           ) : (
             <LinkStyled to={'/auth/sign-in'}>Авторизация</LinkStyled>
           )}

@@ -33,7 +33,8 @@
       "@reducers": ["./src/store/reducers"],
       "@constants": ["./src/constants"],
       "@fonts/*": ["./src/assets/fonts/*"],
-      "@utils": ["./src/utils"]
+      "@utils": ["./src/utils"],
+      "@hooks": ["./src/hooks"]
     }
   },
   "include": ["src"]
