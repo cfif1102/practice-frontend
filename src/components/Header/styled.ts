@@ -1,4 +1,5 @@
 import { COLORS, STYLES } from '@constants';
+import { Skeleton } from '@mui/material';
 import { darken, lighten } from 'polished';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
@@ -75,4 +76,26 @@ export const SignOutBtn = styled.div`
     cursor: pointer;
     background-color: ${lighten(0.13, COLORS.primary)};
   }
+`;
+
+export const LinksSkeletonDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const LinkSkeleton = styled(Skeleton)`
+  &:not(:first-child) {
+    margin-left: 15px;
+  }
+`;
+
+export const UserInfoSkeletonDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const AvatarSkeleton = styled(Skeleton)`
+  margin-left: 13px;
+  margin-right: 15px;
 `;

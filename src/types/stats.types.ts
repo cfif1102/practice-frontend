@@ -1,3 +1,5 @@
+import { Employee } from './auth.types';
+
 export interface Workshop {
   id: number;
   name: string;
@@ -26,4 +28,14 @@ export interface EquipmentStat {
 export interface WorkshopStat {
   workshop: Workshop;
   equipments: EquipmentStat[];
+}
+
+export interface Repair {
+  id: number;
+  startDate: string;
+  endDate?: string;
+  type: string;
+  detectedFault: string;
+  employee: Employee;
+  equipment: Equipment;
 }

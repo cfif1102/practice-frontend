@@ -1,10 +1,14 @@
-import { authSlice, statsSlice } from '@reducers';
+import { authSlice, employeesSlice, equipmentsSlice, repairsSlice, statsSlice, workshopsSlice } from '@reducers';
 import { configureStore } from '@reduxjs/toolkit';
 
 export const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     stats: statsSlice.reducer,
+    equipments: equipmentsSlice.reducer,
+    workshops: workshopsSlice.reducer,
+    employees: employeesSlice.reducer,
+    repairs: repairsSlice.reducer,
   },
 });
 

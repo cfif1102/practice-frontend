@@ -12,5 +12,11 @@ export interface Employee {
   id: number;
   name: string;
   surname: string;
+  middlename: string;
   role: string;
+}
+
+export enum Roles {
+  Employee = 'Employee',
+  Admin = 'Admin',
 }
