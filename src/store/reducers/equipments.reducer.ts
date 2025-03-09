@@ -1,5 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createEquipments, deleteEquipments, findOneEquipment, getEquipments, updateEquipments } from '@thunks';
+import {
+  createEquipments,
+  deleteEquipments,
+  findAllEquipment,
+  findOneEquipment,
+  getEquipments,
+  updateEquipments,
+} from '@thunks';
 
 import { Equipment, Thunk, ThunkInit } from '@@types';
 
@@ -11,6 +18,7 @@ interface EquipmentState {
   createEquipmentThunk: Thunk;
   updateEquipmentThunk: Thunk;
   findOneThunk: Thunk;
+  findAllThunk: Thunk;
   equipment: Equipment | null;
   page: number;
   nextPage?: number;
@@ -24,6 +32,7 @@ interface EquipmentState {
   serialNumber: string;
   workHours: number;
   workshopId: number;
+  allEquipments: Equipment[];
 }
 
 const equipmentsState: EquipmentState = {
@@ -33,6 +42,7 @@ const equipmentsState: EquipmentState = {
   deleteEquipmentThunk: ThunkInit(),
   createEquipmentThunk: ThunkInit(),
   updateEquipmentThunk: ThunkInit(),
+  findAllThunk: ThunkInit(),
   equipment: null,
   findOneThunk: ThunkInit(),
   page: 1,
@@ -45,6 +55,7 @@ const equipmentsState: EquipmentState = {
   serialNumber: '',
   workHours: 0,
   workshopId: 1,
+  allEquipments: [],
 };
 
 export const equipmentsSlice = createSlice({
@@ -102,6 +113,19 @@ export const equipmentsSlice = createSlice({
       .addCase(getEquipments.rejected, (state, action) => {
         state.getEquipmentsThunk.status = 'rejected';
         state.getEquipmentsThunk.error = action.error.message ?? 'Unknown Error';
+      })
+
+      .addCase(findAllEquipment.pending, (state) => {
+        state.findAllThunk.status = 'pending';
+      })
+      .addCase(findAllEquipment.fulfilled, (state, action) => {
+        state.findAllThunk.status = 'succeeded';
+
+        state.allEquipments = action.payload;
+      })
+      .addCase(findAllEquipment.rejected, (state, action) => {
+        state.findAllThunk.status = 'rejected';
+        state.findAllThunk.error = action.error.message ?? 'Unknown Error';
       })
 
       .addCase(deleteEquipments.pending, (state) => {

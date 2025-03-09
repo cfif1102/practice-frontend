@@ -3,7 +3,7 @@ import { FieldError, Path, UseFormClearErrors, UseFormRegisterReturn } from 'rea
 
 export interface FormInputProps<T extends Record<string, any>> {
   type: 'text' | 'password' | 'email' | 'date';
-  value: string | number;
+  value: string | number | Date;
   error: FieldError | undefined;
   action: ActionCreatorWithPayload<any>;
   register: UseFormRegisterReturn;

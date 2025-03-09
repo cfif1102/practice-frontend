@@ -9,6 +9,7 @@ import {
   TBody,
   THead,
 } from '@components/Equipments/styled';
+import { LinkStyled } from '@components/Header/styled';
 import { COLORS } from '@constants';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Skeleton, Table } from '@mui/material';
@@ -83,6 +84,8 @@ export const Repairs: FC = () => {
     <>
       <PaginationDiv>
         <ItemHeader>Акты ремонта</ItemHeader>
+
+        <LinkStyled to={'/repairs/create'}>Добавить</LinkStyled>
 
         <NavDiv>
           {prevPage && <LoadBtn onClick={handleLoadPrev}>Пред.</LoadBtn>}

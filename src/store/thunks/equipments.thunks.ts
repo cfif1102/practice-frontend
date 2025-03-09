@@ -36,3 +36,9 @@ export const findOneEquipment = createAppAsyncThunk('equipments/find-one', async
 
   return eq;
 });
+
+export const findAllEquipment = createAppAsyncThunk('equipments/find-all', async () => {
+  const data = await eqsApi.findAll();
+
+  return data;
+});

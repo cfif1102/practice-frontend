@@ -16,6 +16,8 @@ export interface Employee {
   role: string;
 }
 
+export interface EmployeeCreate extends Omit<Employee, 'id' | 'role'> {}
+
 export enum Roles {
   Employee = 'Employee',
   Admin = 'Admin',

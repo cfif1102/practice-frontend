@@ -14,13 +14,3 @@ export interface WorkshopStat {
   workshop: Workshop;
   equipments: EquipmentStat[];
 }
-
-export interface Repair {
-  id: number;
-  startDate: string;
-  endDate?: string;
-  type: string;
-  detectedFault: string;
-  employee: Employee;
-  equipment: Equipment;
-}

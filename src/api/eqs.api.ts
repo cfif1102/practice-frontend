@@ -35,3 +35,9 @@ export const findOneEquipment = query(async (id: number) => {
 
   return response.data;
 });
+
+export const findAll = query(async () => {
+  const response = await api.get<Equipment[]>('/equipments/all');
+
+  return response.data;
+});
