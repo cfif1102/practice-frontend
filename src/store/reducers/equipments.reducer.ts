@@ -62,6 +62,9 @@ export const equipmentsSlice = createSlice({
   name: 'equipments',
   initialState: equipmentsState,
   reducers: {
+    setEquipments(state, action: PayloadAction<Equipment[]>) {
+      state.equipments = action.payload;
+    },
     setName(state, action: PayloadAction<string>) {
       state.name = action.payload;
     },

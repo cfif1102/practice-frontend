@@ -13,9 +13,10 @@ import { LinkStyled } from '@components/Header/styled';
 import { COLORS } from '@constants';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Skeleton, Table } from '@mui/material';
+import { workshopActions } from '@reducers';
 import { AppDispatch, RootState } from '@store';
 import { deleteWorkshops, getWorkshops } from '@thunks';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -27,6 +28,10 @@ export const Workshops: FC = () => {
     (state: RootState) => state.workshops,
   );
   const { user } = useSelector((state: RootState) => state.auth);
+  const [orders, setOrders] = useState({
+    id: 'asc',
+    name: 'asc',
+  });
 
   useEffect(() => {
     dispatch(getWorkshops({ page, pageSize: size }));
@@ -58,6 +63,24 @@ export const Workshops: FC = () => {
     }
 
     dispatch(deleteWorkshops(id));
+  };
+
+  const handleIdSort = () => {
+    dispatch(
+      workshopActions.setWorkshops([...workshops].sort((a, b) => (orders.id === 'asc' ? b.id - a.id : a.id - b.id))),
+    );
+    setOrders({ ...orders, id: orders.id === 'asc' ? 'desc' : 'asc' });
+  };
+
+  const handleNameSort = () => {
+    dispatch(
+      workshopActions.setWorkshops(
+        [...workshops].sort((a, b) =>
+          orders.name === 'asc' ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name),
+        ),
+      ),
+    );
+    setOrders({ ...orders, name: orders.name === 'asc' ? 'desc' : 'asc' });
   };
 
   if (isLoading) {
@@ -94,8 +117,8 @@ export const Workshops: FC = () => {
       <Table border={1}>
         <THead>
           <tr>
-            <th>ID</th>
-            <th>Название</th>
+            <th onClick={handleIdSort}>ID</th>
+            <th onClick={handleNameSort}>Название</th>
             <th>Операция</th>
           </tr>
         </THead>

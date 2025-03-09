@@ -43,6 +43,9 @@ export const repairsSlice = createSlice({
   name: 'repairs',
   initialState: repairsState,
   reducers: {
+    setRepairs(state, action: PayloadAction<Repair[]>) {
+      state.repairs = action.payload;
+    },
     restoreCreateThunk(state) {
       state.createThunk.error = null;
       state.createThunk.status = 'idle';

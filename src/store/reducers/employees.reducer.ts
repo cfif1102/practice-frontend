@@ -56,6 +56,9 @@ export const employeesSlice = createSlice({
     setMiddlename(state, action: PayloadAction<string>) {
       state.middlename = action.payload;
     },
+    setEmployees(state, action: PayloadAction<Employee[]>) {
+      state.employees = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder

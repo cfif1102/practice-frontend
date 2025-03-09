@@ -49,6 +49,9 @@ export const workshopsSlice = createSlice({
     setName(state, action: PayloadAction<string>) {
       state.name = action.payload;
     },
+    setWorkshops(state, action: PayloadAction<Workshop[]>) {
+      state.workshops = action.payload;
+    },
     restoreCreateThunk(state) {
       state.createThunk.status = 'idle';
       state.createThunk.error = null;

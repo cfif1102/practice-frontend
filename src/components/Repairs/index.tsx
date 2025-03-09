@@ -13,9 +13,10 @@ import { LinkStyled } from '@components/Header/styled';
 import { COLORS } from '@constants';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Skeleton, Table } from '@mui/material';
+import { repairActions } from '@reducers';
 import { AppDispatch, RootState } from '@store';
 import { deleteEquipments, deleteRepair, getEquipments, getRepairs } from '@thunks';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -29,7 +30,15 @@ export const Repairs: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { repairs, nextPage, prevPage, getRepairsThunk, page, size } = useSelector((state: RootState) => state.repairs);
   const { user } = useSelector((state: RootState) => state.auth);
-
+  const [orders, setOrders] = useState({
+    id: 'asc',
+    start: 'asc',
+    end: 'asc',
+    type: 'asc',
+    fault: 'asc',
+    emp: 'asc',
+    eq: 'asc',
+  });
   useEffect(() => {
     dispatch(getRepairs({ page, pageSize: size }));
   }, []);
@@ -60,6 +69,87 @@ export const Repairs: FC = () => {
     }
 
     dispatch(deleteRepair(id));
+  };
+
+  const handleIdSort = () => {
+    dispatch(repairActions.setRepairs([...repairs].sort((a, b) => (orders.id === 'asc' ? b.id - a.id : a.id - b.id))));
+    setOrders({ ...orders, id: orders.id === 'asc' ? 'desc' : 'asc' });
+  };
+
+  const handleStartSort = () => {
+    dispatch(
+      repairActions.setRepairs(
+        [...repairs].sort((a, b) =>
+          orders.start === 'asc'
+            ? +new Date(b.startDate) - +new Date(a.startDate)
+            : +new Date(a.startDate) - +new Date(b.startDate),
+        ),
+      ),
+    );
+    setOrders({ ...orders, start: orders.start === 'asc' ? 'desc' : 'end' });
+  };
+
+  const handleEndSort = () => {
+    dispatch(
+      repairActions.setRepairs(
+        [...repairs].sort((a, b) =>
+          orders.end === 'asc'
+            ? +new Date(b.endDate || Date.now()) - +new Date(a.endDate || Date.now())
+            : +new Date(a.endDate || Date.now()) - +new Date(b.endDate || Date.now()),
+        ),
+      ),
+    );
+    setOrders({ ...orders, end: orders.end === 'asc' ? 'desc' : 'end' });
+  };
+
+  const handleTypeSort = () => {
+    dispatch(
+      repairActions.setRepairs(
+        [...repairs].sort((a, b) =>
+          orders.type === 'asc' ? b.type.localeCompare(a.type) : a.type.localeCompare(b.type),
+        ),
+      ),
+    );
+    setOrders({ ...orders, type: orders.type === 'asc' ? 'desc' : 'asc' });
+  };
+
+  const handleFaultSort = () => {
+    dispatch(
+      repairActions.setRepairs(
+        [...repairs].sort((a, b) =>
+          orders.fault === 'asc'
+            ? b.detectedFault.localeCompare(a.detectedFault)
+            : a.detectedFault.localeCompare(b.detectedFault),
+        ),
+      ),
+    );
+    setOrders({ ...orders, fault: orders.fault === 'asc' ? 'desc' : 'asc' });
+  };
+
+  const handleEmployeeSort = () => {
+    dispatch(
+      repairActions.setRepairs(
+        [...repairs].sort((a, b) =>
+          orders.emp === 'asc'
+            ? b.employee.name.localeCompare(a.employee.name)
+            : a.employee.name.localeCompare(b.employee.name),
+        ),
+      ),
+    );
+    setOrders({ ...orders, emp: orders.emp === 'asc' ? 'desc' : 'asc' });
+  };
+
+  const handleEqSort = () => {
+    dispatch(
+      repairActions.setRepairs(
+        [...repairs].sort((a, b) =>
+          orders.eq === 'asc'
+            ? b.equipment.name.localeCompare(a.equipment.name)
+            : a.equipment.name.localeCompare(b.equipment.name),
+        ),
+      ),
+    );
+    setOrders({ ...orders, eq: orders.eq === 'asc' ? 'desc' : 'asc' });
   };
 
   if (isLoading) {
@@ -96,13 +186,13 @@ export const Repairs: FC = () => {
       <Table border={1}>
         <THead>
           <tr>
-            <th>ID</th>
-            <th>Начало</th>
-            <th>Конец</th>
-            <th>Тип</th>
-            <th>Неисправность</th>
-            <th>Сотрудник</th>
-            <th>Оборудование</th>
+            <th onClick={handleIdSort}>ID</th>
+            <th onClick={handleStartSort}>Начало</th>
+            <th onClick={handleEndSort}>Конец</th>
+            <th onClick={handleTypeSort}>Тип</th>
+            <th onClick={handleFaultSort}>Неисправность</th>
+            <th onClick={handleEmployeeSort}>Сотрудник</th>
+            <th onClick={handleEqSort}>Оборудование</th>
             <th>Акт</th>
             <th>Операция</th>
           </tr>

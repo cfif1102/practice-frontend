@@ -12,9 +12,10 @@ import {
 import { COLORS } from '@constants';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Skeleton, Table } from '@mui/material';
+import { employeesActions } from '@reducers';
 import { AppDispatch, RootState } from '@store';
 import { deleteEmployee, deleteEquipments, getEmployees, getEquipments } from '@thunks';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -26,6 +27,12 @@ export const Employees: FC = () => {
     (state: RootState) => state.employees,
   );
   const { user } = useSelector((state: RootState) => state.auth);
+  const [orders, setOrders] = useState({
+    name: 'asc',
+    surname: 'asc',
+    middlename: 'asc',
+    id: 'asc',
+  });
 
   useEffect(() => {
     dispatch(getEmployees({ page, pageSize: size }));
@@ -77,6 +84,49 @@ export const Employees: FC = () => {
     );
   }
 
+  const handleIdSort = () => {
+    dispatch(
+      employeesActions.setEmployees([...employees].sort((a, b) => (orders.id === 'asc' ? b.id - a.id : a.id - b.id))),
+    );
+
+    setOrders({ ...orders, id: orders.id === 'asc' ? 'desc' : 'asc' });
+  };
+
+  const handleNameSort = () => {
+    dispatch(
+      employeesActions.setEmployees(
+        [...employees].sort((a, b) =>
+          orders.name === 'asc' ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name),
+        ),
+      ),
+    );
+    setOrders({ ...orders, name: orders.name === 'asc' ? 'desc' : 'asc' });
+  };
+
+  const handleSurnameSort = () => {
+    dispatch(
+      employeesActions.setEmployees(
+        [...employees].sort((a, b) =>
+          orders.surname === 'asc' ? b.surname.localeCompare(a.surname) : a.surname.localeCompare(b.surname),
+        ),
+      ),
+    );
+    setOrders({ ...orders, surname: orders.surname === 'asc' ? 'desc' : 'asc' });
+  };
+
+  const handleMiddlenameSort = () => {
+    dispatch(
+      employeesActions.setEmployees(
+        [...employees].sort((a, b) =>
+          orders.middlename === 'asc'
+            ? b.middlename.localeCompare(a.middlename)
+            : a.middlename.localeCompare(b.middlename),
+        ),
+      ),
+    );
+    setOrders({ ...orders, middlename: orders.middlename === 'asc' ? 'desc' : 'asc' });
+  };
+
   return (
     <>
       <PaginationDiv>
@@ -91,10 +141,10 @@ export const Employees: FC = () => {
       <Table border={1}>
         <THead>
           <tr>
-            <th>ID</th>
-            <th>Имя</th>
-            <th>Фамилия</th>
-            <th>Отчество</th>
+            <th onClick={handleIdSort}>ID</th>
+            <th onClick={handleNameSort}>Имя</th>
+            <th onClick={handleSurnameSort}>Фамилия</th>
+            <th onClick={handleMiddlenameSort}>Отчество</th>
             <th>Операция</th>
           </tr>
         </THead>

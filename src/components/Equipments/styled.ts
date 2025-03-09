@@ -19,6 +19,11 @@ export const THead = styled.thead`
     font-family: ${STYLES.defaultFont};
     padding: 10px 20px;
     text-align: center;
+
+    &:hover {
+      cursor: pointer;
+      color: ${darken(0.3, 'white')};
+    }
   }
 `;
 
