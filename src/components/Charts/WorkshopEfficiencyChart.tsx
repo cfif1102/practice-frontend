@@ -29,12 +29,13 @@ export const WorkshopEfficiencyChart: FC<Props> = ({ data }) => {
 
   const formatEfficiency = (value: number) => `${value}%`;
   const processedData = processData(data);
+  const sortedData = [...processedData].sort((a, b) => b.averageEfficiency - a.averageEfficiency);
 
   return (
     <ChartDiv width="100%" paddingBottom="0px">
       <ChartHeader>Эффективность цехов</ChartHeader>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={processedData} margin={{ top: 20, right: 30, left: 30, bottom: 80 }}>
+        <BarChart data={sortedData} margin={{ top: 20, right: 30, left: 30, bottom: 80 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="workshopName" angle={-45} textAnchor="end" tick={{ fontSize: 12 }} />
           <YAxis tickFormatter={formatEfficiency} />

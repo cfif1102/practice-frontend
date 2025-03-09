@@ -10,11 +10,13 @@ interface Props {
 }
 
 export const WorkTimeChart: FC<Props> = ({ data }) => {
+  const sortedData = [...data].sort((a, b) => b.workingTime - a.workingTime);
+
   return (
     <ChartDiv>
       <ChartHeader>Время работы</ChartHeader>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+        <BarChart data={sortedData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="equipment.name" tick={{ fontSize: 12 }} />
           <YAxis />

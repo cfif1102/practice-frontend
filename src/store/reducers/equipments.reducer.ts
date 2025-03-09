@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { deleteEquipments, getEquipments } from '@thunks';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createEquipments, deleteEquipments, findOneEquipment, getEquipments, updateEquipments } from '@thunks';
 
 import { Equipment, Thunk, ThunkInit } from '@@types';
 
@@ -8,10 +8,22 @@ interface EquipmentState {
   getEquipmentsThunk: Thunk;
   loadEquipmentsThunk: Thunk;
   deleteEquipmentThunk: Thunk;
+  createEquipmentThunk: Thunk;
+  updateEquipmentThunk: Thunk;
+  findOneThunk: Thunk;
+  equipment: Equipment | null;
   page: number;
   nextPage?: number;
   prevPage?: number;
   size: number;
+  name: string;
+  manufacturer: string;
+  type: string;
+  model: string;
+  innovationNumber: string;
+  serialNumber: string;
+  workHours: number;
+  workshopId: number;
 }
 
 const equipmentsState: EquipmentState = {
@@ -19,14 +31,59 @@ const equipmentsState: EquipmentState = {
   getEquipmentsThunk: ThunkInit(),
   loadEquipmentsThunk: ThunkInit(),
   deleteEquipmentThunk: ThunkInit(),
+  createEquipmentThunk: ThunkInit(),
+  updateEquipmentThunk: ThunkInit(),
+  equipment: null,
+  findOneThunk: ThunkInit(),
   page: 1,
   size: 10,
+  name: '',
+  manufacturer: '',
+  type: '',
+  model: '',
+  innovationNumber: '',
+  serialNumber: '',
+  workHours: 0,
+  workshopId: 1,
 };
 
 export const equipmentsSlice = createSlice({
   name: 'equipments',
   initialState: equipmentsState,
-  reducers: {},
+  reducers: {
+    setName(state, action: PayloadAction<string>) {
+      state.name = action.payload;
+    },
+    setManufacturer(state, action: PayloadAction<string>) {
+      state.manufacturer = action.payload;
+    },
+    setType(state, action: PayloadAction<string>) {
+      state.type = action.payload;
+    },
+    setModel(state, action: PayloadAction<string>) {
+      state.model = action.payload;
+    },
+    setInnovationNumber(state, action: PayloadAction<string>) {
+      state.innovationNumber = action.payload;
+    },
+    setSerialNumber(state, action: PayloadAction<string>) {
+      state.serialNumber = action.payload;
+    },
+    setWorkhours(state, action: PayloadAction<number>) {
+      state.workHours = action.payload;
+    },
+    setWorkshopId(state, action: PayloadAction<number>) {
+      state.workshopId = action.payload;
+    },
+    restoreCreateThunk(state) {
+      state.createEquipmentThunk.status = 'idle';
+      state.createEquipmentThunk.error = null;
+    },
+    restoreUpdateThunk(state) {
+      state.updateEquipmentThunk.status = 'idle';
+      state.updateEquipmentThunk.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getEquipments.pending, (state) => {
@@ -60,6 +117,42 @@ export const equipmentsSlice = createSlice({
       .addCase(deleteEquipments.rejected, (state, action) => {
         state.deleteEquipmentThunk.status = 'rejected';
         state.deleteEquipmentThunk.error = action.error.message ?? 'Unknown Error';
+      })
+
+      .addCase(createEquipments.pending, (state) => {
+        state.createEquipmentThunk.status = 'pending';
+      })
+      .addCase(createEquipments.fulfilled, (state, action) => {
+        state.createEquipmentThunk.status = 'succeeded';
+      })
+      .addCase(createEquipments.rejected, (state, action) => {
+        state.createEquipmentThunk.status = 'rejected';
+        state.createEquipmentThunk.error = action.error.message ?? 'Unknown Error';
+      })
+
+      .addCase(findOneEquipment.pending, (state) => {
+        state.findOneThunk.status = 'pending';
+      })
+      .addCase(findOneEquipment.fulfilled, (state, action) => {
+        state.findOneThunk.status = 'succeeded';
+        state.equipment = action.payload;
+      })
+      .addCase(findOneEquipment.rejected, (state, action) => {
+        state.findOneThunk.status = 'rejected';
+        state.findOneThunk.error = action.error.message ?? 'Unknown Error';
+      })
+
+      .addCase(updateEquipments.pending, (state) => {
+        state.updateEquipmentThunk.status = 'pending';
+      })
+      .addCase(updateEquipments.fulfilled, (state, action) => {
+        state.updateEquipmentThunk.status = 'succeeded';
+      })
+      .addCase(updateEquipments.rejected, (state, action) => {
+        state.updateEquipmentThunk.status = 'rejected';
+        state.updateEquipmentThunk.error = action.error.message ?? 'Unknown Error';
       });
   },
 });
+
+export const equipmentsActions = { ...equipmentsSlice.actions };

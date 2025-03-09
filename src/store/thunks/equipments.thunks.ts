@@ -1,6 +1,6 @@
 import { eqsApi } from '@api';
 
-import { createAppAsyncThunk, Pagination } from '@@types';
+import { createAppAsyncThunk, CreateEquipemnt, Pagination } from '@@types';
 
 export const getEquipments = createAppAsyncThunk('equipments/get-equipments', async (data: Pagination) => {
   const eqs = await eqsApi.getEquipments(data);
@@ -18,4 +18,21 @@ export const deleteEquipments = createAppAsyncThunk('equipments/delete', async (
   await eqsApi.deleteEquipment(id);
 
   return id;
+});
+
+export const createEquipments = createAppAsyncThunk('equipments/create', async (data: CreateEquipemnt) => {
+  await eqsApi.createEquipment(data);
+});
+
+export const updateEquipments = createAppAsyncThunk(
+  'equipments/update-one',
+  async (data: { id: number; equipment: CreateEquipemnt }) => {
+    await eqsApi.updateEquipment(data);
+  },
+);
+
+export const findOneEquipment = createAppAsyncThunk('equipments/find-one', async (id: number) => {
+  const eq = await eqsApi.findOneEquipment(id);
+
+  return eq;
 });

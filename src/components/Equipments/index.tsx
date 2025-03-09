@@ -1,3 +1,4 @@
+import { LinkStyled } from '@components/Header/styled';
 import { COLORS } from '@constants';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Skeleton, Table } from '@mui/material';
@@ -83,6 +84,8 @@ export const Equipments: FC = () => {
       <PaginationDiv>
         <ItemHeader>Оборудование</ItemHeader>
 
+        <LinkStyled to={'/equipments/create'}>Добавить</LinkStyled>
+
         <NavDiv>
           {prevPage && <LoadBtn onClick={handleLoadPrev}>Пред.</LoadBtn>}
           <PageNumber>Страница: {page}</PageNumber>
@@ -119,7 +122,7 @@ export const Equipments: FC = () => {
               <td>
                 {user && user.role === Roles.Admin && (
                   <>
-                    <Link to={`/equipmens/${eq.id}/edit`}>
+                    <Link to={`/equipments/${eq.id}/edit`}>
                       <IconBtn icon={faPencil} />
                     </Link>
                     <IconBtn icon={faTrash} onClick={handleDelete(eq.id)} />

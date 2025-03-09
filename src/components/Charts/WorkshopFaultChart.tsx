@@ -29,12 +29,13 @@ export const WorkshopFaultChart: FC<Props> = ({ data }) => {
   };
 
   const processedData = processData(data);
+  const sortedData = [...processedData].sort((a, b) => b.totalBreaks - a.totalBreaks);
 
   return (
     <ChartDiv width="100%" paddingBottom="0px">
       <ChartHeader>Поломки по цехам</ChartHeader>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={processedData} margin={{ top: 20, right: 30, left: 20, bottom: 80 }}>
+        <BarChart data={sortedData} margin={{ top: 20, right: 30, left: 20, bottom: 80 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="workshopName" angle={-35} textAnchor="end" tick={{ fontSize: 12 }} />
           <YAxis />

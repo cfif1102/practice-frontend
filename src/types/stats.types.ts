@@ -1,21 +1,6 @@
 import { Employee } from './auth.types';
-
-export interface Workshop {
-  id: number;
-  name: string;
-}
-
-export interface Equipment {
-  id: number;
-  name: string;
-  manufacturer: string;
-  type: string;
-  model: string;
-  innovationNumber: string;
-  serialNumber: string;
-  workHours: number;
-  workshop: Workshop;
-}
+import { Equipment } from './equipment.types';
+import { Workshop } from './workshops.types';
 
 export interface EquipmentStat {
   equipment: Equipment;

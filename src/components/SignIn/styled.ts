@@ -22,8 +22,8 @@ export const FormStyled = styled.form<FormProps>`
     width: ${width};
     background-color: white;
     border-radius: 15px;
-    padding: 0px 70px;
-    height: ${height};
+    padding: 30px 70px;
+    min-height: ${height};
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 12px 4px rgba(0, 0, 0, 0.2);
